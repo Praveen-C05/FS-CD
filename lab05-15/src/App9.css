@@ -1,0 +1,38 @@
+.app9-container {
+	max-width: 400px;
+	margin: 40px auto;
+	padding: 24px;
+	background: #f9f9f9;
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+	font-family: Arial, sans-serif;
+}
+.app9-form {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+.app9-form input[type="email"] {
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+.app9-form button {
+	padding: 8px 0;
+	background: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-weight: bold;
+}
+.app9-form button:hover {
+	background: #0056b3;
+}
+.app9-result {
+	margin-top: 20px;
+}
+.app9-error {
+	color: red;
+	font-weight: bold;
+}

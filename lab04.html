@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Random Quote Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      transition: background 0.5s;
+    }
+    .card {
+      background: rgba(255,255,255,0.95);
+      padding: 32px 40px;
+      border-radius: 18px;
+      box-shadow: 0px 8px 32px rgba(0,0,0,0.15);
+      text-align: center;
+      max-width: 520px;
+      animation: popin 0.7s cubic-bezier(.68,-0.55,.27,1.55);
+    }
+    @keyframes popin {
+      0% { transform: scale(0.8) translateY(40px); opacity: 0; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+    #quote {
+      font-size: 1.5rem;
+      font-style: italic;
+      margin-bottom: 18px;
+      color: #333;
+      line-height: 1.5;
+      position: relative;
+    }
+    #quote:before, #quote:after {
+      color: #e0aaff;
+      font-size: 2.2rem;
+      vertical-align: top;
+      font-family: serif;
+    }
+    #quote:before {
+      content: '“';
+      margin-right: 4px;
+    }
+    #quote:after {
+      content: '”';
+      margin-left: 4px;
+    }
+    #author {
+      font-size: 1.1rem;
+      color: #7b2ff2;
+      margin-bottom: 24px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+    button {
+      padding: 12px 28px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      background: linear-gradient(90deg, #7b2ff2 0%, #f357a8 100%);
+      color: #fff;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(123,47,242,0.08);
+      transition: background 0.3s, transform 0.2s;
+    }
+    button:hover {
+      background: linear-gradient(90deg, #f357a8 0%, #7b2ff2 100%);
+      transform: translateY(-2px) scale(1.04);
+    }
+    #loading {
+      color: #888;
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+  <p id="quote">Click the button to load a random quote...</p>
+  <p id="author"></p>
+  <p id="loading" style="color:#888; display:none;">Loading...</p>
+  <button id="btnFetch">Get Quote</button>
+  </div>
+
+  <script>
+    // Class to handle API calls and UI updates
+
+    class QuoteApp {
+      constructor(quoteEl, authorEl, loadingEl) {
+        this.quoteEl = quoteEl;
+        this.authorEl = authorEl;
+        this.loadingEl = loadingEl;
+  // Use DummyJSON Quotes API (supports CORS)
+  this.apiURL = "https://dummyjson.com/quotes/random";
+      }
+
+      // Fetch API (async/await + arrow function)
+      fetchQuote = async () => {
+        this.loadingEl.style.display = "block";
+        this.quoteEl.textContent = "";
+        this.authorEl.textContent = "";
+        try {
+          const res = await fetch(this.apiURL);
+          if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+          const data = await res.json();
+          // DummyJSON returns an object with 'quote' and 'author' properties
+          const { quote: content, author } = data;
+          this.quoteEl.textContent = `"${content}"`;
+          this.authorEl.textContent = `— ${author}`;
+        } catch (error) {
+          this.quoteEl.textContent = `Failed to load quote. ${error.message}`;
+          this.authorEl.textContent = "";
+          // Optionally, show more details for debugging
+          const errorDetails = document.createElement('pre');
+          errorDetails.style.color = 'red';
+          errorDetails.textContent = error.stack || error;
+          this.quoteEl.appendChild(errorDetails);
+          console.error("Error fetching quote:", error);
+        } finally {
+          this.loadingEl.style.display = "none";
+        }
+      }
+    }
+
+    // Initialize app
+  const quoteEl = document.getElementById("quote");
+  const authorEl = document.getElementById("author");
+  const loadingEl = document.getElementById("loading");
+  const app = new QuoteApp(quoteEl, authorEl, loadingEl);
+
+  document.getElementById("btnFetch").addEventListener("click", app.fetchQuote);
+  app.fetchQuote();
+  </script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>JSON → Dynamic UI (ES6+)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; background:#f6f7fb; margin:0; padding:24px; }
+    .app { max-width: 960px; margin: 0 auto; }
+    h1 { margin: 0 0 12px; }
+    .toolbar { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin: 12px 0 16px; }
+    .toolbar input { padding:10px 12px; border:1px solid #dcdfe6; border-radius:8px; flex:1; min-width:220px; }
+    .toolbar button { padding:10px 14px; border:0; border-radius:8px; cursor:pointer; background:#3b82f6; color:#fff; }
+    .toolbar button.secondary { background:#64748b; }
+    .badge { background:#111827; color:#fff; padding:6px 10px; border-radius:999px; font-size:12px; }
+    .table-wrap { overflow:auto; background:#fff; border-radius:12px; box-shadow:0 6px 16px rgba(0,0,0,.06); }
+    table { width:100%; border-collapse: collapse; }
+    th, td { padding:12px 14px; border-bottom:1px solid #f1f5f9; text-align:left; white-space:nowrap; }
+    th { background:#f8fafc; font-weight:600; position:sticky; top:0; }
+    tr:hover td { background:#fafafa; }
+    .empty { text-align:center; padding:32px; color:#6b7280; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>Students (JSON → HTML)</h1>
+
+    <div class="toolbar">
+      <button id="btnBuiltIn">Use Built-in Data</button>
+      <button id="btnLoadFile" class="secondary">Load from <code>data.json</code></button>
+      <input id="search" type="search" placeholder="Search by name, course, or city…" />
+      <span class="badge"><span id="count">0</span> shown</span>
+    </div>
+
+    <div id="output" class="table-wrap"></div>
+  </div>
+
+  <script>
+    // --- Built-in JSON (Method A) ---
+    const builtInData = [
+      { id: 101, name: "Aisha Khan", course: "Full Stack", city: "Bengaluru", score: 92 },
+      { id: 102, name: "Rohan Gupta", course: "Cloud", city: "Mumbai", score: 86 },
+      { id: 103, name: "Meera Nair", course: "Data Science", city: "Kochi", score: 90 },
+      { id: 104, name: "Vikram Iyer", course: "Cybersecurity", city: "Chennai", score: 78 },
+      { id: 105, name: "Priya Sharma", course: "Full Stack", city: "Delhi", score: 88 }
+    ];
+
+    // Tiny helpers
+    const $ = (s) => document.querySelector(s);
+    const out = $("#output");
+    const countEl = $("#count");
+    const searchEl = $("#search");
+
+    // --- Renderer Class (ES6+ class, arrow methods, destructuring, template literals) ---
+    class DataRenderer {
+      constructor(container) {
+        this.container = container;
+        this.data = [];
+        this.filtered = [];
+      }
+
+      setData = (data = []) => {
+        this.data = Array.isArray(data) ? data : [];
+        this.applyFilter(searchEl.value);
+      };
+
+      applyFilter = (term = "") => {
+        const q = term.trim().toLowerCase();
+        this.filtered = !q
+          ? [...this.data]
+          : this.data.filter(({ name, course, city }) =>
+              [name, course, city].some(v => String(v).toLowerCase().includes(q))
+            );
+        this.render();
+      };
+
+      render = () => {
+        countEl.textContent = this.filtered.length;
+
+        if (!this.filtered.length) {
+          this.container.innerHTML = `<div class="empty">No records found.</div>`;
+          return;
+        }
+
+        const header = `
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Course</th>
+              <th>City</th>
+              <th>Score</th>
+            </tr>
+          </thead>`;
+
+        const rows = this.filtered
+          .map(({ id, name, course, city, score }) => `
+            <tr>
+              <td>${id}</td>
+              <td>${name}</td>
+              <td>${course}</td>
+              <td>${city}</td>
+              <td>${score}</td>
+            </tr>
+          `).join("");
+
+        this.container.innerHTML = `
+          <table>
+            ${header}
+            <tbody>${rows}</tbody>
+          </table>
+        `;
+      };
+    }
+
+    const view = new DataRenderer(out);
+
+    // --- Method B: load JSON via fetch (async/await) ---
+    // const loadFromFile = async (path = "data.json") => {
+    //   try {
+    //     const res = await fetch(path); // requires serving via http(s)
+    //     if (!res.ok) throw new Error(\`HTTP \${res.status}\`);
+    //     const json = await res.json();
+    //     // Accept array or object with "students" field
+    //     const data = Array.isArray(json) ? json : (json.students ?? []);
+    //     view.setData(data);
+    //   } catch (err) {
+    //     console.error(err);
+    //     out.innerHTML = `<div class="empty">Failed to load <code>${path}</code>. 
+    //       If opening this file directly, run a local server for fetch to work.</div>`;
+    //     countEl.textContent = 0;
+    //   }
+    // };
+
+    // --- Wire up UI (arrow functions) ---
+    $("#btnBuiltIn").addEventListener("click", () => view.setData(builtInData));
+    $("#btnLoadFile").addEventListener("click", () => loadFromFile());
+    searchEl.addEventListener("input", (e) => view.applyFilter(e.target.value));
+
+    // Default view
+    view.setData(builtInData);
+  </script>
+</body>
+</html>
+
+<!-- 
+data.json (sample file for Method B)
+{
+  "students": [
+    { "id": 201, "name": "Nikhil Rao", "course": "Full Stack", "city": "Hyderabad", "score": 91 },
+    { "id": 202, "name": "Ananya Das", "course": "Cloud", "city": "Kolkata", "score": 84 },
+    { "id": 203, "name": "Farhan Ali", "course": "DevOps", "city": "Pune", "score": 88 },
+    { "id": 204, "name": "Sneha Patil", "course": "AI/ML", "city": "Nashik", "score": 93 }
+  ]
+} -->
