@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stopwatch App</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+      margin: 0;
+    }
+    h1#display {
+      font-size: 3.5rem;
+      letter-spacing: 0.1em;
+      background: #fff;
+      color: #222;
+      padding: 30px 60px;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+      margin-bottom: 40px;
+      border: 2px solid #e3e3e3;
+      font-weight: 600;
+    }
+    .controls {
+      display: flex;
+      gap: 20px;
+    }
+    .controls button {
+      padding: 15px 35px;
+      font-size: 1.2rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #36d1c4 0%, #5b86e5 100%);
+      color: #fff;
+      box-shadow: 0 4px 16px 0 rgba(91, 134, 229, 0.10);
+      transition: background 0.3s, transform 0.2s;
+      outline: none;
+    }
+    .controls button:hover {
+      background: linear-gradient(90deg, #5b86e5 0%, #36d1c4 100%);
+      transform: translateY(-2px) scale(1.05);
+    }
+    @media (max-width: 600px) {
+      h1#display {
+        font-size: 2rem;
+        padding: 15px 10px;
+      }
+      .controls button {
+        padding: 10px 10px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1 id="display">00:00:00:00</h1>
+  <div class="controls">
+    <button id="startBtn">Start</button>
+    <button id="stopBtn">Stop</button>
+    <button id="resetBtn">Reset</button>
+  </div>
+
+  <script>
+    // Stopwatch class using ES6+ features
+    class Stopwatch {
+      constructor(displayElement) {
+        this.displayElement = displayElement;
+        this.startTime = 0;
+        this.elapsedTime = 0;
+        this.intervalId = null;
+      }
+
+      // Format milliseconds into HH:MM:SS.ss
+      formatTime(ms) {
+        const totalSeconds = Math.floor(ms / 1000);
+        const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+        const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+        const seconds = String(totalSeconds % 60).padStart(2, '0');
+        const centiseconds = String(Math.floor((ms % 1000) / 10)).padStart(2, '0');
+        return `${hours}:${minutes}:${seconds}.${centiseconds}`;
+      }
+
+      // Arrow function: start
+      start = () => {
+        if (!this.intervalId) {
+          this.startTime = Date.now() - this.elapsedTime;
+          this.intervalId = setInterval(() => {
+            this.elapsedTime = Date.now() - this.startTime;
+            this.displayElement.textContent = this.formatTime(this.elapsedTime);
+          }, 10);
+        }
+      }
+
+      // Arrow function: stop
+      stop = () => {
+        if (this.intervalId) {
+          clearInterval(this.intervalId);
+          this.intervalId = null;
+        }
+      }
+
+      // Arrow function: reset
+      reset = () => {
+        this.stop();
+        this.elapsedTime = 0;
+  this.displayElement.textContent = "00:00:00.00";
+      }
+    }
+
+    // Initialize stopwatch
+    const display = document.getElementById('display');
+    const stopwatch = new Stopwatch(display);
+
+    // Event Listeners
+    document.getElementById('startBtn').addEventListener('click', stopwatch.start);
+    document.getElementById('stopBtn').addEventListener('click', stopwatch.stop);
+    document.getElementById('resetBtn').addEventListener('click', stopwatch.reset);
+  </script>
+</body>
+</html>
