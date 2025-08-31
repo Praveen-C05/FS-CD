@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login Page</title>
+    <script>
+        function fun() {
+            //input from textbox to local variable
+            var u = document.getElementById("t1").value;
+            var p = document.getElementById("t2").value;
+            //verifying
+            if (u == "admin" && p == "123") {
+                window.open("index.html");
+            } else {
+                alert("Invalid user id/password");
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <center>
+        <br><br>
+        <b> Login Form </b>
+        <form>
+            <table cellpadding="10" cellspacing="5" border="1">
+                <tr>
+                    <td> USER ID </td>
+                    <td> <input type="text" id="t1" name="t1"> </td>
+                </tr>
+                <tr>
+                    <td> PASSWORD </td>
+                    <td> <input type="password" id="t2" name="t2"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <center> <input type="button" value="Login" onclick="fun();">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </center>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<html>
+
+<head>
+    <title>Login Page</title>
+    <script>
+        function fun() {
+            //input from textbox to local variable
+            var p = (document.getElementById("t1").value) * 1;
+            var r = (document.getElementById("t2").value) * 1;
+            var t = (document.getElementById("t3").value) * 1;
+            var si = (p * r * t) / 100;
+            document.getElementById("t4").value = si;
+        }
+    </script>
+</head>
+
+<body>
+    <center>
+        <br><br>
+        <b> Simple Interest Calcy </b>
+        <form>
+            <table cellpadding="10" cellspacing="5" border="1">
+                <tr>
+                    <td> Principle Amnt </td>
+                    <td> <input type="text" id="t1" name="t1"> </td>
+                </tr>
+                <tr>
+                    <td> Rate </td>
+                    <td> <input type="text" id="t2" name="t2"></td>
+                </tr>
+                <tr>
+                    <td> Time </td>
+                    <td> <input type="text" id="t3" name="t3"></td>
+                </tr>
+
+                <tr>
+                    <td> <input type="button" value="Cal SI" onclick="fun();">
+                    </td>
+                    <td> <input type="text" id="t4" name="t4"> </td>
+                </tr>
+            </table>
+        </form>
+    </center>
+</body>
+
+</html>
