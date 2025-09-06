@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Interest Calculator</title>
+    <script>
+        function calSI() {
+            var principal = parseFloat(document.getElementById("t1").value);
+            var rate = parseFloat(document.getElementById("t2").value);
+            var time = parseFloat(document.getElementById("t3").value);
+
+            var interest=(principal*rate*time)/100;
+            document.getElementById("result").innerHTML="Simple Interest = ₹"+interest.toFixed(2);
+        }
+    </script>
+</head>
+<body>
+    <center>
+        <h2>Simple Interest Calculator</h2>
+        <table cellpadding="10" cellspacing="5" border="1">
+            <tr> <td>Principal ($):</td><td><input type="text" id="t1" placeholder="Enter principal amount"></td> </tr>
+            <tr> <td>Rate (%):</td><td><input type="text" id="t2" placeholder="Enter rate of interest"></td> </tr>
+            <tr> <td>Time (years):</td><td><input type="text" id="t3" placeholder="Enter time period"></td> </tr>
+            <tr> <td colspan="2" ><center> <input type="button" value="Calculate" onclick="calSI()"></td> </tr>
+        </table> <br>
+        <div <b id="result"></b></div>
+    </center>
+</body>
+</html>

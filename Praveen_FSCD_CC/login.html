@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <title>Login Page</title>
+        <script>
+            function fun(){
+                //get the input from local variable...
+                var u=document.getElementById("t1").value;
+                var p=document.getElementById("t2").value;
+                //verifying
+                if (u=="admin"&& p=="123"){
+                    window.open("index.html");
+                }
+                else   
+                 alert("Invalid ID/ Password")
+            }
+        </script>
+    </head>
+    <body>
+        <center>
+            <br><br>
+            <b>Login Form</b>
+            <form>
+                <table cellpadding=10 cellspacing=5 border=1>
+                <tr> <td><br>UserName :</td><td><input type="text" id="t1" name="t1" placeholder="Your UserName"><br></td></tr>
+                <tr> <td><br>PASSWORD </td><td><input type="password" id="t2" name="t2" placeholder="Password"><br></td></tr>
+                <tr><td colspan=2><center><br><input type="button" value="Login"  onclick="fun()"></td></tr>
+                </table>
+            </form>
+        </center>
+    </body>
+</html>

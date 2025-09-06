@@ -1,0 +1,36 @@
+<html>
+<head>
+    <title>Data Validation From</title>
+    <style>
+        #container {
+            background-color: blueviolet;
+            padding: 20px;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+    <script>
+        function validation() {
+            var ph = document.getElementById("p").value;
+
+            var phpattern = /^[6-9]\d{9}$/;
+            if (!phpattern.test(ph)) {
+                alert("Invalid Phone Number");
+                return false;
+            } else {
+                alert("Valid Phone Number");
+                return true;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="container">
+        <h2>Fill the form</h2>
+        <form onsubmit="return validation()">
+            Phone No.: <input type="text" id="p" placeholder="Enter Phone No.">
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>
