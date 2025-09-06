@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Validation Form</title>
+    <style>
+     
+ #container {
+        background: #6a0dad;
+        color: #fff;
+        padding: 100px;
+        max-width: 200px;
+        margin: auto;
+        border-radius: 100px;
+        text-align: center;
+      }
+
+
+
+input[type="text"] {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+}
+
+
+input[type="submit"] {
+  background-color: #fff;
+  color: #6a0dad;
+  border: none;
+  padding: 10px;
+  font-weight: bold;
+  border-radius: 100px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #977ddf;
+}
+    </style>
+    <script>
+      function validation() {
+        var ph = document.getElementById("p").value;
+        var email = document.getElementById("e").value;
+
+        var phpattern = /^[6-9]\d{9}$/;
+        var emailpattern = /^[A-Za-z0-9._%+-]+@[a-z]+\.[a-z]{2,}$/;
+
+        if (!phpattern.test(ph)) {
+          alert("Invalid Phone Number");
+          return false;
+        }
+
+        if (!emailpattern.test(email)) {
+          alert("Invalid Email ID");
+          return false;
+        }
+
+        alert("Form submitted successfully!");
+        return true;
+      }
+    </script>
+  </head>
+  <body>
+    <div id="container">
+      <h2>Fill the Form</h2>
+      <form onsubmit="return validation()">
+        <input type="text" id="p" placeholder="Phone No." />
+        <input type="text" id="e" placeholder="Email ID" /><br>
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  </body>
+</html>
