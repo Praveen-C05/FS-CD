@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>ES6 Code to Compute Area of Different Shapes</h1>
+
+    <p id="out1"></p>
+    <p id="out2"></p>
+    <p id="out3"></p>
+    <p id="out4"></p>
+
+    <script>
+      class Shapes {
+        constructor(a, b) {
+          this.a = a;
+          this.b = b;
+        }
+
+        square = (side) => side * side;
+        rect = () => this.a * this.b;
+        tria = (height, base) => (height * base) / 2;
+        circle = (radius) => Math.PI * radius * radius;
+      }
+
+      const sh = new Shapes(7, 8);
+      const side = 5;
+      const radius = 6;
+
+      document.getElementById("out1").innerHTML =
+        `Area of Square (side ${side}): ` + sh.square(side);
+      document.getElementById("out2").innerHTML =
+        " Area of Rectangle (7×8): " + sh.rect();
+      document.getElementById("out3").innerHTML =
+        "Area of Triangle (8×4): " + sh.tria(8, 4);
+      document.getElementById("out4").innerHTML =
+        `Area of Circle (radius ${radius}): ` + sh.circle(radius).toFixed(2);
+    </script>
+  </body>
+</html>

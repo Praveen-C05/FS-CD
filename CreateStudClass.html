@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>JavaScript Classes</h1>
+   
+    <p id="demo"></p>
+
+    <script>
+      class Stud {
+        constructor(name, regno, prog, batch, phoneNo, email) {
+          this.name = name;
+          this.regno = regno;
+          this.prog = prog;
+          this.batch = batch;
+          this.phoneNo = phoneNo;
+          this.email = email;
+        }
+
+        getSummary() {
+          return `${this.name} | ${this.regno} | ${this.prog} | ${this.batch} | ${this.phoneNo}| ${this.email}`;
+        }
+      }
+
+      const stud1 = new Stud(
+        "Ford",
+        50,
+        "BCA",
+        2014,
+        1122334455,
+        "f@gmail.com"
+      );
+      const stud2 = new Stud(
+        "Audi",
+        51,
+        "BCA",
+        2019,
+        6677889900,
+        "a@gmail.com"
+      );
+
+    //   const StudList = stud1.getSummary() + "<br>" + stud2.getSummary();
+    //   document.getElementById("demo").innerHTML = StudList;
+     document.getElementById("demo").innerHTML =
+    // StudList ||OR||
+    stud1.name + " " + stud1.prog + " " + stud1.email;
+//   stud2.name + " " + stud2.prog + " " + stud2.email;
+    </script>
+  </body>
+</html>
