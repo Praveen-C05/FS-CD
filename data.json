@@ -1,0 +1,8 @@
+{
+  "students": [
+    { "id": 201, "name": "Nikhil Rao", "course": "Full Stack", "city": "Hyderabad", "score": 91 },
+    { "id": 202, "name": "Ananya Das", "course": "Cloud", "city": "Kolkata", "score": 84 },
+    { "id": 203, "name": "Farhan Ali", "course": "DevOps", "city": "Pune", "score": 88 },
+    { "id": 204, "name": "Sneha Patil", "course": "AI/ML", "city": "Nashik", "score": 93 }
+  ]
+}
